@@ -14,19 +14,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
     && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
     && sudo apt-get clean
     
-COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
-RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
-    && tar -xvzf xdebug-3.0.4.tgz \
-    && cd xdebug-3.0.4 \
-    && phpize \
-    && ./configure --enable-xdebug \
-    && make \
-    && sudo cp modules/xdebug.so /usr/lib/php/20190902/xdebug.so \
-    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/cli/php.ini" \
-    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/apache2/php.ini" \
-    && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
-    && df -h 
-    # sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
+
 
 COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
