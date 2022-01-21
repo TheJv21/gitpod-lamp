@@ -6,6 +6,7 @@ echo $x;
 echo $y;
 echo $z;
 echo "v3";
+echo " Hi Mohamed!";
 echo phpinfo();
 ?>
 
